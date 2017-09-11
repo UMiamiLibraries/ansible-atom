@@ -5,15 +5,24 @@
   args:
     chdir: "{{ atom_path }}"
   environment:
-    PATH: "{{ ansible_env.PATH }}:/opt/rh/rh-php70/root/bin/"
+    - "{{ atom_pool_php_envs }}"
 
-- name: "Add initial DRMC data"
-  command: "php symfony drmc:bootstrap --init"
+- name: "Purge DRMC database"
+  command: "php symfony tools:purge --no-confirmation --email='{{ atom_user_email }}' --username='{{ atom_user_username }}' --password='{{ atom_user_password }}' --title='{{ atom_title }}' --description='{{ atom_description }}'"
   args:
     chdir: "{{ atom_path }}"
   environment:
-    PATH: "{{ ansible_env.PATH }}:/opt/rh/rh-php70/root/bin/"
+    - "{{ atom_pool_php_envs }}"
+  when: "atom_drmc is defined and atom_drmc|bool and atom_flush_data|bool"
+
+- name: "Add initial DRMC data"
+  command: "php symfony binder:bootstrap"
+  args:
+    chdir: "{{ atom_path }}"
   when: "atom_drmc is defined and atom_drmc|bool"
+  environment:
+    - "{{ atom_pool_php_envs }}"
+
 
 - name: "Set database settings (only available in DRMC)"
   command: "php symfony tools:set-db-setting {{ item.k }} {{ item.v }}"
