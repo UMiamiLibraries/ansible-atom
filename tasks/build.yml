@@ -24,6 +24,15 @@
     state: "directory"
     owner: "{{ ansible_ssh_user }}"
     recurse: yes
+  when:
+    "atom_drmc is defined and atom_drmc|bool"
+
+- name: "Update npm"
+  shell: "source scl_source enable rh-nodejs6 ; npm update"
+  args:
+    chdir: "{{ atom_drmc_path }}"
+  when:
+    "atom_drmc is defined and atom_drmc|bool"
 
 - name: "Install npm local dependencies"
   npm:
@@ -31,7 +40,6 @@
     state: "latest"
   when:
     "atom_drmc is defined and atom_drmc|bool"
-  become: "no"
 
 # using --force option to ignore Error compiling ../../arDominionPlugin/css/main.less
 - name: "Build DRMC"
@@ -39,7 +47,6 @@
   args:
     chdir: "{{ atom_drmc_path }}"
   when: "atom_drmc is defined and atom_drmc|bool"
-  become: "no"
 
 - name: "Build docs"
   command: "make html"
@@ -47,6 +54,7 @@
     chdir: "{{ atom_drmc_path }}/docs"
   when: "atom_drmc is defined and atom_drmc|bool"
   become: "no"
+  ignore_errors: "yes"
 
 - name: "Restore ownership of site directory"
   file:
