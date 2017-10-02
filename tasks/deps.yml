@@ -37,6 +37,7 @@
     - "make"              #
     - "python2-pip"       #
     - "python-setuptools" #
+    - "openssl"
 
 - name: "Install Sphinx"
   become: yes
