@@ -3,24 +3,24 @@
 # apt-key with https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 # produces "Failed to validate the SSL certificate" error"
 # https://github.com/nodesource/ansible-nodejs-role/issues/33
-- name: "Add Nodesource apt key"
-  apt_key:
-    url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
-    id: "68576280"
-    state: present
+# - name: "Add Nodesource apt key"
+#   apt_key:
+#     url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
+#     id: "68576280"
+#     state: present
 
-- name: "Add external repositories"
-  apt_repository:
-    repo: "{{ item }}"
-    update_cache: "yes"
-  with_items:
-    - "deb https://deb.nodesource.com/node_5.x {{ ansible_distribution_release }} main"
+# - name: "Add external repositories"
+#   apt_repository:
+#     repo: "{{ item }}"
+#     update_cache: "yes"
+#   with_items:
+#     - "deb https://deb.nodesource.com/node_5.x {{ ansible_distribution_release }} main"
 
-- name: "Add archivematica/externals-dev PPA (ffmpeg in Ubuntu <= 14.04)"
-  apt_repository:
-    repo: "ppa:archivematica/externals-dev"
-    update_cache: "yes"
-  when: "ansible_distribution_version | version_compare('14.04', '<=')"
+# - name: "Add archivematica/externals-dev PPA (ffmpeg in Ubuntu <= 14.04)"
+#   apt_repository:
+#     repo: "ppa:archivematica/externals-dev"
+#     update_cache: "yes"
+#   when: "ansible_distribution_version | version_compare('14.04', '<=')"
 
 - name: "Install AtoM dependencies"
   apt:
