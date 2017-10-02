@@ -23,21 +23,23 @@
 #   when: "ansible_distribution_version | version_compare('14.04', '<=')"
 
 - name: "Install AtoM dependencies"
-  apt:
+  become: yes
+  yum:
     pkg: "{{ item }}"
     state: "latest"
   with_items:
-    - "imagemagick"       # ↓ AtoM dependencies
+    - "ImageMagick"       # ↓ AtoM dependencies
     - "ghostscript"       #
     - "poppler-utils"     #
     - "ffmpeg"            #
-    - "git"               # ↓ Build dependencies
+    - "git2u-core"        # ↓ Build dependencies
     - "nodejs"            #
     - "make"              #
-    - "python-pip"        #
+    - "python2-pip"       #
     - "python-setuptools" #
 
 - name: "Install Sphinx"
+  become: yes
   pip:
     name: "{{ item }}"
     state: "latest"
@@ -47,6 +49,7 @@
     - "sphinx_rtd_theme"
 
 - name: "Install npm global dependencies (also required during the build)"
+  become: yes
   npm:
     name: "{{ item }}"
     global: "yes"
