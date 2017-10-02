@@ -31,7 +31,7 @@
     - "ImageMagick"       # ↓ AtoM dependencies
     - "ghostscript"       #
     - "poppler-utils"     #
-    - "ffmpeg"            #
+#    - "ffmpeg"            #
     - "git2u-core"        # ↓ Build dependencies
     - "nodejs"            #
     - "make"              #
