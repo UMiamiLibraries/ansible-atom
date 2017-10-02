@@ -94,6 +94,7 @@
   when: "atom_uploads_symlink is defined"
 
 - name: "Uploads directory"
+  become: yes
   file:
     state: "directory"
     path: "{{ atom_path }}/uploads"
