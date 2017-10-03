@@ -1,15 +1,11 @@
 ---
 
 - name: "Stop worker"
+  become: yes
   service:
     name: "{{ atom_worker_service_name }}"
     state: "stopped"
   ignore_errors: "yes" # It could be not created yet
-
-- name: "Install atom-worker service (upstart)"
-  template:
-    src: "etc/init/atom-worker.conf"
-    dest: "/etc/init/{{ atom_worker_service_name }}.conf"
 
 - name: "Install atom-worker service (systemd)"
   template:
@@ -17,6 +13,7 @@
     dest: "/lib/systemd/system/atom-worker.service"
 
 - name: "Start and enable atom-worker service"
+  become: yes
   service:
     name: "{{ atom_worker_service_name }}"
     state: "restarted"
@@ -26,37 +23,8 @@
 # Apache FOP (including installation of Java)
 #
 
-- name: "Install OpenJDK 7"
-  apt:
-    pkg: "openjdk-7-jre-headless"
-    state: "latest"
-  when: "ansible_distribution_version | version_compare('14.04', '<=')"
-  tags:
-    - "fop"
-
-- name: "Install OpenJDK 8"
-  apt:
-    pkg: "openjdk-8-jre-headless"
-    state: "latest"
-  when: "ansible_distribution_version | version_compare('14.04', '>')"
-  tags:
-    - "fop"
-
-- name: "Use FOP 2.1 in AtoM 2.3 or newer (Ubuntu 16.04)" 
-  set_fact:
-    fop_version: "2.1"
-  when: "ansible_distribution_version | version_compare('16.04', '==')"
-  tags:
-    - "fop"
-
-- name: "Use FOP 1.0 in AtoM 2.2 (Ubuntu 14.04)" 
-  set_fact:
-    fop_version: "1.0"
-  when: "ansible_distribution_version | version_compare('14.04', '==')"
-  tags:
-    - "fop"
-
 - name: "Install Apache FOP: unarchive"
+  become: yes
   unarchive:
     src: "https://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-{{ fop_version }}-bin.tar.gz"
     dest: "/usr/share"
@@ -68,6 +36,7 @@
     - "fop"
 
 - name: "Install Apache FOP: set up FOP_HOME"
+  become: yes
   lineinfile:
     dest: "/etc/environment"
     line: "FOP_HOME=/usr/share/fop-{{ fop_version }}"
@@ -75,6 +44,7 @@
     - "fop"
 
 - name: "Install Apache FOP: symlink"
+  become: yes
   file:
     src: "/usr/share/fop-{{ fop_version }}/fop"
     dest: "/usr/local/bin/fop"
