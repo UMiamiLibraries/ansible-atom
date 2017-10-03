@@ -24,6 +24,12 @@
 # Apache FOP (including installation of Java)
 #
 
+- name: "Use FOP 2.1 in AtoM 2.3 or newer (Ubuntu 16.04)" 
+  set_fact:
+    fop_version: "2.1"
+  tags:
+    - "fop"
+
 - name: "Install Apache FOP: unarchive"
   become: yes
   unarchive:
