@@ -5,6 +5,7 @@
 #
 
 - name: "Build AtoM themes (make)"
+  become: yes
   command: "{{ item.build_cmd }}"
   args:
     chdir: "{{ item.path }}"
