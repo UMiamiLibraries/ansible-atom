@@ -20,6 +20,7 @@
 # http://stackoverflow.com/questions/22152162/npm-cannot-install-dependencies-attempt-to-unlock-something-which-hasnt-been
 
 - name: "Temporarily change ownership of DRMC plugin directory"
+  become: yes
   file:
     path: "{{ atom_drmc_path }}"
     state: "directory"
@@ -36,6 +37,7 @@
 
 # using --force option to ignore Error compiling ../../arDominionPlugin/css/main.less
 - name: "Build DRMC"
+  become: yes
   command: "grunt build --force"
   args:
     chdir: "{{ atom_drmc_path }}"
@@ -43,6 +45,7 @@
   become: "no"
 
 - name: "Build docs"
+  become: yes
   command: "make html"
   args:
     chdir: "{{ atom_drmc_path }}/docs"
@@ -50,6 +53,7 @@
   become: "no"
 
 - name: "Restore ownership of site directory"
+  become: yes
   file:
     path: "{{ atom_drmc_path }}"
     state: "directory"
