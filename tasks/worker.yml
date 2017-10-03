@@ -8,6 +8,7 @@
   ignore_errors: "yes" # It could be not created yet
 
 - name: "Install atom-worker service (systemd)"
+  become: yes
   template:
     src: "lib/systemd/system/atom-worker.service"
     dest: "/lib/systemd/system/atom-worker.service"
