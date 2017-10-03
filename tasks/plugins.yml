@@ -1,5 +1,7 @@
 ---
 
+- include: flush.yml
+
 - name: "Enable AtoM plug-ins"
   become: yes
   command: "php symfony tools:atom-plugins add {{ item }}"
