@@ -9,7 +9,7 @@ atom_user: "nginx"
 atom_group: "nginx"
 atom_path: "/usr/share/nginx/atom"
 atom_repository_url: "https://github.com/artefactual/atom.git"
-atom_repository_version: "v2.3.1"
+atom_repository_version: "v2.4.0"
 
 # Install some extra packages specific to our official Vagrant-based
 # development box. See `tasks/devbox.yml` for more details.
