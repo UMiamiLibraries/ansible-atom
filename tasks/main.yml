@@ -44,3 +44,5 @@
   when: "atom_devbox|bool"
   tags:
     - "atom-devbox"
+
+- include: "settings.yml"

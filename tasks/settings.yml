@@ -1,0 +1,5 @@
+- name: Import local AtoM settings
+  mysql_db:
+    state: import
+    name: all
+    target: settings.sql
