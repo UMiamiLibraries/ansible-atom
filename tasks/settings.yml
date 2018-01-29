@@ -1,6 +1,6 @@
 - name: Copy UML AtoM settings SQL file to server
   copy:
-    src: ../templates/tmp/settings.sql
+    src: "../templates/tmp/settings-{{ env }}.sql"
     dest: /tmp/settings.sql
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
