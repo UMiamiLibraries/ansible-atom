@@ -1,7 +1,15 @@
-- name: Import local AtoM settings
+- name: Copy UML AtoM settings SQL file to server
+  copy:
+    src: ../templates/tmp/settings.sql
+    dest: /tmp/settings.sql
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0644
+
+- name: Import UML AtoM settings
   mysql_db:
     state: import
-    name: all
-    target: settings.sql
+    name: atom
+    target: /tmp/settings.sql
     login_user: root
     login_password: "{{ mysql_root_password }}"
