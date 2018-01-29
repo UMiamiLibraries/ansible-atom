@@ -3,3 +3,5 @@
     state: import
     name: all
     target: settings.sql
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
